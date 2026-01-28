@@ -13,7 +13,7 @@
 1. 登录 GitHub (https://github.com)
 2. 点击右上角的 "+" 号，选择 "New repository"
 3. 填写仓库信息：
-   - **Repository name**: `PyDataTools` (或你喜欢的名字)
+   - **Repository name**: `PyDataToolsClairDong` (或你喜欢的名字)
    - **Description**: Python数据处理工具 - 线性回归、参数拟合、矩阵运算等
    - **Visibility**: 
      - Public（公开，免费使用 Streamlit Cloud）
