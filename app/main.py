@@ -2,6 +2,14 @@
 PyDataTools - Python数据处理工具
 主应用入口，整合所有功能模块
 """
+import sys
+import os
+
+# 添加项目根目录到Python路径
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
 import streamlit as st
 from app.config import PAGE_CONFIG
 from modules.regression.web_ui import regression_page
