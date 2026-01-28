@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import io
 from modules.regression.core import linear_regression_from_csv
-from utils.visualization import setup_chinese_font
+from utils.visualization import setup_chinese_font, get_label, CHINESE_FONT_AVAILABLE
 from utils.file_handler import validate_csv_file, validate_regression_columns
 
 # 配置matplotlib支持中文显示
@@ -102,8 +102,15 @@ def regression_page():
                 # 创建图形
                 fig, ax = plt.subplots(figsize=(10, 6))
                 
+                # 根据字体支持情况选择标签
+                data_label = get_label('原始数据点', 'Data Points')
+                reg_label = get_label('回归线', 'Regression Line')
+                xlabel = get_label('X (特征变量)', 'X (Feature Variable)')
+                ylabel = get_label('Y (目标变量)', 'Y (Target Variable)')
+                title = get_label('单线性回归结果', 'Linear Regression Result')
+                
                 # 绘制原始数据点
-                ax.scatter(X, Y, alpha=0.6, label='原始数据点', color='blue', s=50)
+                ax.scatter(X, Y, alpha=0.6, label=data_label, color='blue', s=50)
                 
                 # 绘制回归线（排序以便绘制平滑的线）
                 sorted_indices = X.argsort()
@@ -111,17 +118,20 @@ def regression_page():
                 predictions_sorted = predictions[sorted_indices]
                 
                 ax.plot(X_sorted, predictions_sorted, color='red', linewidth=2, 
-                       label=f'回归线: Y = {slope:.2f}X + {intercept:.2f}')
+                       label=f'{reg_label}: Y = {slope:.2f}X + {intercept:.2f}')
                 
                 # 设置图形属性
-                ax.set_xlabel('X (特征变量)', fontsize=12)
-                ax.set_ylabel('Y (目标变量)', fontsize=12)
-                ax.set_title('单线性回归结果', fontsize=14, fontweight='bold')
+                ax.set_xlabel(xlabel, fontsize=12)
+                ax.set_ylabel(ylabel, fontsize=12)
+                ax.set_title(title, fontsize=14, fontweight='bold')
                 ax.legend(fontsize=10)
                 ax.grid(True, alpha=0.3)
                 
                 # 在图上添加文本信息
-                info_text = f'斜率: {slope:.4f}\n截距: {intercept:.4f}\n决定系数(R²): {r_squared:.4f}'
+                if CHINESE_FONT_AVAILABLE:
+                    info_text = f'斜率: {slope:.4f}\n截距: {intercept:.4f}\n决定系数(R²): {r_squared:.4f}'
+                else:
+                    info_text = f'Slope: {slope:.4f}\nIntercept: {intercept:.4f}\nR²: {r_squared:.4f}'
                 ax.text(0.02, 0.98, info_text, transform=ax.transAxes,
                        fontsize=10, verticalalignment='top',
                        bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
